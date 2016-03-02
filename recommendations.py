@@ -2,6 +2,8 @@
 import recom1
 from math import sqrt
 pros = recom1.recom()
+
+title = ['合计','家庭户','集体户','人口','人口（男）','人口（女）','性别比','家庭户','家庭户(男)','家庭户(女)','家庭户(性别比)','集体户','集体户(男)','集体户(女)','性别比(集体户)','户规模']
 def sim_distance(prefs,person1, person2):
     sum_of_squares = sum([pow(prefs[person1][item] - prefs[person2][item] , 2)
                          for item in range(0,16)])
@@ -21,3 +23,10 @@ def sim_pearson(prefs, p1, p2):
 
     r = num/den
     return r
+def topMatches(prefs, person, n=5, similarity = sim_pearson):
+    scores = [(similarity(prefs,person,other), other)
+                for other in prefs if other != person]
+
+    scores.sort()
+    scores.reverse()
+    return scores[0:n]
