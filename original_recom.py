@@ -68,3 +68,10 @@ def sim_pearson(prefs, p1, p2):
         return 0
 
     return upper/sqrt(lower)
+def topMatches(prefs, person, n = 5, similarity = sim_pearson):
+    scores = [(similarity(prefs, person, other), other)
+                for other in prefs if other !=  person]
+#不是由其他元素吗直接就可以sort吗
+    scores.sort()
+    scores.reverse()
+    return scores[0:n]
