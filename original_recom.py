@@ -128,3 +128,24 @@ def getRecommendations(prefs,person,similarity=sim_pearson):
     rankings.reverse()
 
     return rankings
+def transformPrefs(prefs):
+    result = {}
+    for item in prefs:
+        for it in prefs[item]:
+            result.setdefault(it,{});
+            result[it][item]=prefs[item][it]
+    return result
+def loadMovieLens(path='ml/'):
+    moives = {}
+    for line in open(path+'u.item'):#line
+        (id,title) = line.split('|')[0:2]
+        moives[id] = title
+
+    prefs = {}
+    for line in open(path+'u.data'):
+        (user,moiveid,rating,ts) = line.split('\t')
+        prefs.setdefault(user,{});
+        prefs[user][moives[moiveid]] = float(rating)
+        #movieid is important
+    return prefs
+
